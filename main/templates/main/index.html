@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h1 class="mt-5">Personal API</h1>
+
+{% if not request.user.is_authenticated %}
+<div class="row">
+  <div class="col-md">
+    <p>
+      Connect to your <i>Open Humans</i> account & your personal Fitbit API endpoint to deliver status updates about yourself.
+    </p>
+    <a href="{{ auth_url }}" class="btn btn-primary">
+      Connect to Open Humans
+    </a>
+  </div>
+  <div class="col-md">
+    <h2>Why?</h2>
+    <p>
+    Why not?
+    </p>
+  </div>
+</div>
+{% else %}
+
+<div class="row">
+  <div class="col-md">
+    <h2>You're logged in. </h2>
+      You need to set up your Intraday Fitbit API integration to request access to your Intraday Fitbit Data.
+  <p>
+    <a href="{% url 'deliver_data' oh_id=request.user.openhumansmember.oh_id%}" class="btn btn-primary" id='json_url'>
+      See your Data!
+    </a>
+  </p>
+  <p>
+
+    <span id='time_info' class='invisible'>
+      Bastian's local time is <span id='local_time'></span> (<span id='time_zone'></span>).
+    </span>
+    <span id='location_info' class='invisible'>
+      He is currently in <span id='location_name'></span> <span id='weather' class='invisible'> There it is
+        <i><i id='condition_icon'></i> <span id='weather_condition'></span></i> and <span id='weather_temperature'></span>˚C.</span>
+    </span>
+  </p>
+  <p>
+    <span id='activity_info' class='invisible'>
+      His current heart rate is <i class="fas fa-heartbeat"></i> <span id='heart_rate'></span> bpm.
+      He took <i class="fas fa-shoe-prints"></i> <span id='steps'></span> steps today.
+
+      He slept <i class="fas fa-bed"></i> <span id='sleep'></span> hours.
+      His phone is <span id='battery_level'></span>% charged and is currently <span id='battery_state'></span>.
+    </span>
+  </p>
+  <p>
+    <span id='music_info' class='invisible'>
+      He recently danced to <i class="fas fa-music"></i> <i><span id='title'></span></i>
+      by <span id='artist'></span>.
+    </span>
+  </p>
+  </div>
+  <div class="col-md">
+    <h2>
+      Your Fitbit account
+    </h2>
+    {%if fitbituser%}
+  </p>
+    You already have linked a fitbit user account
+  </p>
+  {%else%}
+  you don't!
+  {%endif%}
+
+  {%if fb_auth_url%}
+  <p>
+  You have added your <code>client_id/secret</code> but haven't authorized this Fitbit
+  account yet. Please click below to get access to your intraday-data!
+  <a href="{{ fb_auth_url }}" class="btn btn-primary">
+    Connect Fitbit Account
+  </a>
+  </p>
+  {%elif fitbituser%}
+  <form action="{% url 'delete-fitbit' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Remove Fitbit integration">
+  </form>
+  {%endif%}
+
+  <p>
+    <h3>
+      Add/Edit your Personal Fitbit API <code>client_id/secret</code>
+    </h3>
+    <p>Give <code>{{fb_redirect_uri}}</code> as the <code>Callback URL</code> when setting up
+      on the Fitbit end.</p>
+  <form action="{% url 'create-fitbit' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Fitbit Client ID</label> <input class="form-control" name="client_id" size=60 type="text" value="{{fitbituser.personal_client_id}}" placeholder="Enter your Fitbit Personal API Client-ID" required>
+    </div>
+    <div class="form-group">
+      <label>Client secret</label> <input class="form-control" name="client_secret" type="text" size=60 value="{{fitbituser.personal_client_secret}}" placeholder="Enter your Fitbit Personal API Client-Secret" required>
+    </div>
+    <input type="submit" class="btn btn-default" value="Update Client ID/Secret">
+  </form>
+  </p>
+  </div>
+
+
+{% endif %}
+
+{% endblock main %}
