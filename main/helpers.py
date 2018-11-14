@@ -30,10 +30,8 @@ def compile_fitbit(oh_member):
 
 
 def get_existing_fitbit(oh_member):
-    print("entered get_existing_fitbit")
     for dfile in oh_member.list_files():
-        if 'Fitbit' in dfile['metadata']['tags']:
-            print("got fitbit file metadata")
+        if 'Fitbit Intraday' in dfile['metadata']['tags']:
             # get file here and read the json into memory
             tf_in = tempfile.NamedTemporaryFile(suffix='.json')
             tf_in.write(requests.get(dfile['download_url']).content)
@@ -41,6 +39,6 @@ def get_existing_fitbit(oh_member):
             fitbit_data = json.load(open(tf_in.name))
             print("fetched existing data from OH")
             # print(fitbit_data)
-            return fitbit_data
+            return fitbit_data, dfile['id']
     fitbit_data = {}
-    return fitbit_data
+    return fitbit_data, None
