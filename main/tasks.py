@@ -32,7 +32,8 @@ def update_fitbit(oh_id):
         return
     else:
         fb_user = oh_member.fitbituser
-        fitbit_data, old_file_id = get_existing_fitbit(oh_member=oh_member)
+        fitbit_data, old_file_id, month = get_existing_fitbit(
+                                                oh_member=oh_member)
         headers = {
             'Authorization': "Bearer %s" % fb_user.get_access_token()}
         if 'user' not in fitbit_data.keys():
@@ -43,17 +44,19 @@ def update_fitbit(oh_id):
             print(response.json())
             fitbit_data['user'] = response.json()['user']
             print('got fitbit userprofile')
-        update_endpoints(oh_member, fitbit_data, headers, old_file_id)
+        update_endpoints(oh_member, fitbit_data, headers, old_file_id, month)
 
 
-def identify_start_data_fetch(fitbit_data, data_key):
+def identify_start_data_fetch(fitbit_data, data_key, month):
     if data_key in fitbit_data.keys():
         if len(fitbit_data[data_key]) > 0:
             start_date = fitbit_data[data_key][-1]['date']
             del(fitbit_data[data_key][-1])
             return fitbit_data, start_date
-    #return fitbit_data, fitbit_data['user']['memberSince']
-    return fitbit_data, "2018-10-28" # THIS IS JUST FOR TESTING TO KEEP THE DATA MANAGEABLE!
+        elif month:
+            return fitbit_data, month + '-01'
+    return fitbit_data, fitbit_data['user']['memberSince']
+    #return fitbit_data, "2018-10-28" # THIS IS JUST FOR TESTING TO KEEP THE DATA MANAGEABLE!
 
 
 def get_single_endpoint(url, start_date, header):
@@ -65,13 +68,13 @@ def get_single_endpoint(url, start_date, header):
         raise ValueError("Rate Limit")
 
 
-def update_endpoints(oh_member, fitbit_data, header, old_file_id):
+def update_endpoints(oh_member, fitbit_data, header, old_file_id, month):
     rollovers = 0
     try:
         for endpoint, url in FITBIT_ENDPOINTS.items():
             print('start processing {} endpoint'.format(endpoint))
             fitbit_data, start_date = identify_start_data_fetch(
-                                            fitbit_data, endpoint)
+                                            fitbit_data, endpoint, month)
             print('start date for {}: {}'.format(endpoint, start_date))
             start_date = datetime.datetime.strptime(
                             start_date,
@@ -95,6 +98,8 @@ def update_endpoints(oh_member, fitbit_data, header, old_file_id):
             print('finished updating {}'.format(endpoint))
     except ValueError:
         print('encountered rate limit for fitbit!')
+        update_fitbit.apply_async(args=[oh_member.oh_id, ], countdown=3600)
+        print('queued updates for post-api limit.')
         print('will now enter finally block to update data!')
     finally:
         with tempfile.TemporaryFile() as f:

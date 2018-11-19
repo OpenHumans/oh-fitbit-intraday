@@ -51,6 +51,6 @@ def get_existing_fitbit(oh_member):
         fitbit_data = json.load(open(tf_in.name))
         print("fetched existing data from OH")
         # print(fitbit_data)
-        return fitbit_data, last_file['id']
+        return fitbit_data, last_file['id'], filenames[-1]
     fitbit_data = {}
-    return fitbit_data, None
+    return fitbit_data, None, None
