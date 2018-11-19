@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 from django.http import JsonResponse
@@ -11,6 +10,7 @@ import requests
 import json
 from openhumans.models import OpenHumansMember
 from .models import FitbitUser, Data
+from .tasks import update_fitbit
 
 
 def index(request):
@@ -127,7 +127,7 @@ def complete_fitbit(request):
     fb_user.scope = rjson['scope']
     fb_user.token_type = rjson['token_type']
     fb_user.save()
-
+    update_fitbit.delay(fb_user.oh_member.oh_id)
     return redirect('/')
 
 
