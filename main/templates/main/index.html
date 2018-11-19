@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
-<h1 class="mt-5">Personal API</h1>
+{% load static %}
+<h1 class="mt-5">Setup Fitbit Intraday Data Access</h1>
 
 {% if not request.user.is_authenticated %}
 <div class="row">
@@ -26,37 +26,43 @@
 <div class="row">
   <div class="col-md">
     <h2>You're logged in. </h2>
-      You need to set up your Intraday Fitbit API integration to request access to your Intraday Fitbit Data.
-  <p>
-    <a href="{% url 'deliver_data' oh_id=request.user.openhumansmember.oh_id%}" class="btn btn-primary" id='json_url'>
-      See your Data!
-    </a>
-  </p>
-  <p>
+      You need to set up your Intraday Fitbit API integration to import your intraday Fitbit data into your Open Humans account. Below are the steps you need to take:
 
-    <span id='time_info' class='invisible'>
-      Bastian's local time is <span id='local_time'></span> (<span id='time_zone'></span>).
-    </span>
-    <span id='location_info' class='invisible'>
-      He is currently in <span id='location_name'></span> <span id='weather' class='invisible'> There it is
-        <i><i id='condition_icon'></i> <span id='weather_condition'></span></i> and <span id='weather_temperature'></span>˚C.</span>
-    </span>
-  </p>
-  <p>
-    <span id='activity_info' class='invisible'>
-      His current heart rate is <i class="fas fa-heartbeat"></i> <span id='heart_rate'></span> bpm.
-      He took <i class="fas fa-shoe-prints"></i> <span id='steps'></span> steps today.
+      <h4>1. Login to the Fitbit developer page</h4>
+      <a href="{% static 'img/setup-1.png' %}"><img src="{% static 'img/setup-1.png' %}" width="100%" /></a>
+      <p>
+        Head to <a href='https://dev.fitbit.com/login'><code>https://dev.fitbit.com/login</code></a> and sign-in
+        with the same Fitbit account you are using to collect data with.
+      </p>
 
-      He slept <i class="fas fa-bed"></i> <span id='sleep'></span> hours.
-      His phone is <span id='battery_level'></span>% charged and is currently <span id='battery_state'></span>.
-    </span>
-  </p>
-  <p>
-    <span id='music_info' class='invisible'>
-      He recently danced to <i class="fas fa-music"></i> <i><span id='title'></span></i>
-      by <span id='artist'></span>.
-    </span>
-  </p>
+      <h4>2. Create your personal API application</h4>
+      <a href="{% static 'img/setup-2.png' %}"><img src="{% static 'img/setup-2.png' %}" width="100%" /></a>
+      <p>
+        Head to <a href='https://dev.fitbit.com/apps/new'><code>https://dev.fitbit.com/apps/new</code></a> and enter the data
+        for your personal endpoint. You need to fill in <code>Application Name</code>, <code>Description</code>, <code>Application Website</code> as well as
+        links to the <code>Terms of Service</code> & <code>Privacy Policy</code>. As you are creating a personal API application and not a public endpoint, you can
+        enter whatever you feel like here.
+      </p>
+
+      <h4>3. Setting up the Personal Fitbit API.</h4>
+      <a href="{% static 'img/setup-3.png' %}"><img src="{% static 'img/setup-3.png' %}" width="100%" /></a>
+      <p>
+        The screenshot above shows the two important settings you need to get right for this integration to work:
+        <ol>
+          <li>Set the <code>OAuth 2.0 Application Type</code> to <code>Personal</code></li>. This allows you to get your intraday data.
+          <li>
+            You need to give a <code>callback URL</code>, which is where you will be redirected to allow Open Humans to access your data.
+            This needs to be set to <code>{{fb_redirect_uri}}</code>.
+          </li>
+        </ol>
+      </p>
+      <h4>4. Get your <code>client_id</code> & <code>client_secret</code></h4>
+      <a href="{% static 'img/setup-4.png' %}"><img src="{% static 'img/setup-4.png' %}" width="100%" /></a>
+      <p>
+        Once you have filled in all the information needed in steps 2 & 3 you will be redirected to a page that
+        shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>. You can copy these and enter them in the form to the right.
+      </p>
+
   </div>
   <div class="col-md">
     <h2>

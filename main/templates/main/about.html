@@ -1,8 +1,151 @@
 {% extends 'base.html' %}
-
 {% block main %}
+{% load static %}
+    <div class="row">
+      <div class="col-md-12">
+        <h2>About / FAQ</h2>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Who's running this?</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              This site is run by
+              <a href="https://openhumansfoundation.org/">the Open Humans
+              Foundation</a> and is covered by Open Humans'
+              <a href='https://www.openhumans.org/terms/'>Terms of Use</a> and
+              <a href='https://www.openhumans.org/data-use/'>Data Use Policy</a>.
+              You can always get in touch with us at
+              <a href="mailto:support@openhumans.org">support@openhumans.org</a>.
+            </p>
+            <p>
+              See this project's page on Open Humans:<br><a href='https://www.openhumans.org/activity/link/'>https://www.openhumans.org/activity/link/</a>
+            </p>
+            <p>
+              See this app's code on GitHub:<br><a href='https://github.com/OpenHumans/link'>https://github.com/OpenHumans/link</a>
+            </p>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">What does this do?</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              This site allows you to connect data from <code>external data source</code> to your Open
+              Humans account. After logging in with your Open Humans account you can upload data/link data from <code>external data source</code>.
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">How does it work?</h3>
+          </div>
+          <div class="panel-body">
+            To import your intraday data from Fitbit you have to setup a <code>personal API</code> endpoint through the
+            Fitbit developer settings. Below is a step-by-step guide to setup this integration.
+            <h4>1. Login to the Fitbit developer page</h4>
+            <a href="{% static 'img/setup-1.png' %}"><img src="{% static 'img/setup-1.png' %}" width="100%" /></a>
+            <p>
+              Head to <a href='https://dev.fitbit.com/login'><code>https://dev.fitbit.com/login</code></a> and sign-in
+              with the same Fitbit account you are using to collect data with.
+            </p>
 
-<h1 class="mt-5">About</h1>
-Text goes here!
+            <h4>2. Create your personal API application</h4>
+            <a href="{% static 'img/setup-2.png' %}"><img src="{% static 'img/setup-2.png' %}" width="100%" /></a>
+            <p>
+              Head to <a href='https://dev.fitbit.com/apps/new'><code>https://dev.fitbit.com/apps/new</code></a> and enter the data
+              for your personal endpoint. You need to fill in <code>Application Name</code>, <code>Description</code>, <code>Application Website</code> as well as
+              links to the <code>Terms of Service</code> & <code>Privacy Policy</code>. As you are creating a personal API application and not a public endpoint, you can
+              enter whatever you feel like here.
+            </p>
 
-{% endblock main %}
+            <h4>3. Setting up the Personal Fitbit API.</h4>
+            <a href="{% static 'img/setup-3.png' %}"><img src="{% static 'img/setup-3.png' %}" width="100%" /></a>
+            <p>
+              The screenshot above shows the two important settings you need to get right for this integration to work:
+              <ol>
+                <li>Set the <code>OAuth 2.0 Application Type</code> to <code>Personal</code></li>. This allows you to get your intraday data.
+                <li>
+                  You need to give a <code>callback URL</code>, which is where you will be redirected to allow Open Humans to access your data.
+                  This needs to be set to <code>{{fb_redirect_uri}}</code>.
+                </li>
+              </ol>
+            </p>
+            <h4>4. Get your <code>client_id</code> & <code>client_secret</code></h4>
+            <a href="{% static 'img/setup-4.png' %}"><img src="{% static 'img/setup-4.png' %}" width="100%" /></a>
+            <p>
+              Once you have filled in all the information needed in steps 2 & 3 you will be redirected to a page that
+              shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>. You can copy these two values and enter them on the index page of this integration.
+            </p>
+
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">What we get from <code>external data source</code></h3>
+          </div>
+          <div class="panel-body">
+          <p>
+            Explain in plain language which data we request if it's an API connection. If it's a file upload, explain which data is in the file that's uploaded.
+          </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Data management</h3>
+          </div>
+          <div class="panel-body">
+          <p>
+            This site can access and store various types of data for visitors
+            and associated with connected accounts.
+          </p>
+          <p>
+            When you connect data from <code>external data source</code>, this site will access the
+            following data and store it in your Open Humans
+            account.
+          </p>
+          <ol>
+            <li>x</li>
+            <li>y</li>
+            <li>z</li>
+            <li>etc.</li>
+          </ol>
+          <p>
+            The site also stores the following data when you connect accounts
+            from <code>external data source</code> and Open Humans.
+          </p>
+          <ol>
+            <li>an anonymous identifier for your Open Humans account</li>
+            <li>authentication credentials that allow us to read &amp; write data from <code>external data source</code> to Open Humans</li>
+            <li>(authentication credentials that allow us to read your data from <code>external data source</code>)</li>
+          </ol>
+          <p>
+            Finally, this site's hoster
+            <i><a href='https://www.heroku.com'>Heroku</a></i> stores and gives
+            us access to the IP addresses of visitors, and pages visited on
+            this site. These logs may be stored for up to a week.
+          </p>
+          <p>
+            You can always delete your account and all associated data from
+            the <i>Dashboard</i> when being logged in.
+            This includes the Open Humans and <code>external data source</code> authentication credentials,
+            i.e. we won't be able to access your Open Humans &amp; <code>external data source</code>
+            accounts any longer.
+          </p>
+          <p>
+            Removing the authorization on Open Humans does not automatically
+            delete your Oura archive on Open Humans; if you want this to occur,
+            you should delete your account here before withdrawing from
+            <a href="https://www.openhumans.org/activity/link/">this
+            project</a> in the Open Humans site.
+          </p>
+          </div>
+        </div>
+      </div>
+  </div>
+
+{% endblock %}
