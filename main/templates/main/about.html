@@ -77,7 +77,21 @@
             <a href="{% static 'img/setup-4.png' %}"><img src="{% static 'img/setup-4.png' %}" width="100%" /></a>
             <p>
               Once you have filled in all the information needed in steps 2 & 3 you will be redirected to a page that
-              shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>. You can copy these two values and enter them on the index page of this integration.
+              shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>.
+            </p>
+            <h4>5. Enter your <code>client_id</code> & <code>client_secret</code></h4>
+            <a href="{% static 'img/setup-5.png' %}"><img src="{% static 'img/setup-5.png' %}" width="49%" /></a>
+            <a href="{% static 'img/setup-6.png' %}"><img src="{% static 'img/setup-6.png' %}" width="49%" /></a>
+            <p>
+              Copy the <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code> from the Step 4 and enter them in the
+              in the form in this application. Once these are saved, a button to connect your Fitbit account will appear.
+            </p>
+            <h4>6. Authenticate with Fitbit</code></h4>
+            <a href="{% static 'img/setup-7.png' %}"><img src="{% static 'img/setup-7.png' %}" width="100%" /></a>
+            <p>
+              Click the `Connect Fitbit Account` button and you will be asked to give permissions to access the intraday data.
+              You should at least allow access to the <code>profile</code>, <code>activity and exercise</code> and <code>heart rate</code>. Once you <code>Allow</code>
+              access to these, your credentials will be stored and this application will start importing your intraday activity & hear heart rate data.
             </p>
 
           </div>
