@@ -34,8 +34,9 @@
           </div>
           <div class="panel-body">
             <p>
-              This site allows you to connect data from <code>external data source</code> to your Open
-              Humans account. After logging in with your Open Humans account you can upload data/link data from <code>external data source</code>.
+              This site allows you to connect intraday data from your <i>Fitbit account</i> to your Open
+              Humans account. After logging in with your Open Humans account you can link your <i>Fitbit</i> account.
+              We will then import your intraday data into your Open Humans account.
           </div>
         </div>
         <div class="panel panel-default">
@@ -96,16 +97,6 @@
 
           </div>
         </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">What we get from <code>external data source</code></h3>
-          </div>
-          <div class="panel-body">
-          <p>
-            Explain in plain language which data we request if it's an API connection. If it's a file upload, explain which data is in the file that's uploaded.
-          </p>
-          </div>
-        </div>
       </div>
       <div class="col-md-6">
         <div class="panel panel-default">
@@ -118,24 +109,25 @@
             and associated with connected accounts.
           </p>
           <p>
-            When you connect data from <code>external data source</code>, this site will access the
+            When you connect data from <i>Fitbit</i>, this site will access the
             following data and store it in your Open Humans
-            account.
+            account:
           </p>
           <ol>
-            <li>x</li>
-            <li>y</li>
-            <li>z</li>
-            <li>etc.</li>
+            <li>Your historic heart rate data in one second resolution.</li>
+            <li>Your historic activity data (steps taken, floors climbed, distances walked) with a one minute resolution</li>
           </ol>
+          <p>
+            In addition to the historic data, this application will regularly update your Fitbit data to get the latest data points going forward.
+          </p>
           <p>
             The site also stores the following data when you connect accounts
             from <code>external data source</code> and Open Humans.
           </p>
           <ol>
             <li>an anonymous identifier for your Open Humans account</li>
-            <li>authentication credentials that allow us to read &amp; write data from <code>external data source</code> to Open Humans</li>
-            <li>(authentication credentials that allow us to read your data from <code>external data source</code>)</li>
+            <li>authentication credentials that allow us to read &amp; write data from the <i>Fitbit Intraday</i> project to Open Humans</li>
+            <li>authentication credentials that allow us to read your data from <i>Fitbit</i>)</li>
           </ol>
           <p>
             Finally, this site's hoster
@@ -146,13 +138,13 @@
           <p>
             You can always delete your account and all associated data from
             the <i>Dashboard</i> when being logged in.
-            This includes the Open Humans and <code>external data source</code> authentication credentials,
-            i.e. we won't be able to access your Open Humans &amp; <code>external data source</code>
+            This includes the Open Humans and <i>Fitbit</i> authentication credentials,
+            i.e. we won't be able to access your Open Humans &amp; <i>Fitbit</i>
             accounts any longer.
           </p>
           <p>
             Removing the authorization on Open Humans does not automatically
-            delete your Oura archive on Open Humans; if you want this to occur,
+            delete your Intraday Fitbit data on Open Humans; if you want this to occur,
             you should delete your account here before withdrawing from
             <a href="https://www.openhumans.org/activity/link/">this
             project</a> in the Open Humans site.
