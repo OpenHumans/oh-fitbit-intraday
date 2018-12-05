@@ -1,7 +1,5 @@
 from django.core.management.base import BaseCommand
 from openhumans.models import OpenHumansMember
-from main import helpers
-import requests
 from main.tasks import update_fitbit
 
 
