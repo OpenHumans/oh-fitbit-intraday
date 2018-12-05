@@ -11,4 +11,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for oh_member in OpenHumansMember.objects.all():
             if hasattr(oh_member, 'fitbituser'):
-                update_fitbit(oh_member.oh_id)
+                update_fitbit.delay(oh_member.oh_id)
