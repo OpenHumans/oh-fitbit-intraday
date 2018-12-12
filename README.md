@@ -21,7 +21,8 @@ Make sure to set the following vars. The client id and secret is created [here](
 ```
 OPENHUMANS_CLIENT_ID=your_client_id
 OPENHUMANS_CLIENT_SECRET=your_client_secret
-OPENHUMANS_APP_BASE_URL=http://127.0.0.1:5000```
+OPENHUMANS_APP_BASE_URL=http://127.0.0.1:5000
+```
 
 ### Redis
 
