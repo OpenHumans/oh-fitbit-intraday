@@ -4,12 +4,10 @@ from django.contrib.auth import logout
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
-from django.http import JsonResponse
 import base64
 import requests
-import json
 from openhumans.models import OpenHumansMember
-from .models import FitbitUser, Data
+from .models import FitbitUser
 from .tasks import update_fitbit
 
 
@@ -129,36 +127,3 @@ def complete_fitbit(request):
     fb_user.save()
     update_fitbit.delay(fb_user.oh_member.oh_id)
     return redirect('/')
-
-
-def deliver_data(request, oh_id):
-    oh_member = OpenHumansMember.objects.get(oh_id=oh_id)
-    try:
-        fitbit = Data.objects.get(
-                        oh_member=oh_member,
-                        data_type='fitbit')
-    except:
-        fitbit = ""
-    try:
-        spotify = Data.objects.get(
-                        oh_member=oh_member,
-                        data_type='music')
-    except:
-        spotify = ""
-    try:
-        location = Data.objects.get(oh_member=oh_member, data_type='location')
-    except:
-        location = ""
-    json_data = {}
-    if fitbit:
-        json_data['activity'] = json.loads(fitbit.data)
-    if spotify:
-        json_data['music'] = json.loads(spotify.data)
-    if location:
-        json_data['location'] = json.loads(location.data)
-    response = JsonResponse(json_data)
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
-    return response
