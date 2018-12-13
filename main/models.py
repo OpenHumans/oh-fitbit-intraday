@@ -60,11 +60,3 @@ class FitbitUser(models.Model):
             self.save()
             return True
         return False
-
-
-class Data(models.Model):
-    oh_member = models.ForeignKey(
-                    OpenHumansMember,
-                    on_delete=models.CASCADE)
-    data_type = models.CharField(max_length=512)
-    data = models.TextField(default="{}")
