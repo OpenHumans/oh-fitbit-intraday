@@ -2,8 +2,30 @@
 {% load static %}
 
 {% block main %}
-<h1 class="mb-3">Dashboard: Fitbit Intraday</h1>
+<div class="row">
+    <div class="col-md-9 col-lg-10">
+        <h1 class="mb-3">Dashboard: Fitbit Intraday</h1>
+        <p>
+            Congrats! You've connected DataSource.
+            Your data will be stored in files within your Open Humans account.
+            Files are listed below, and can also be seen in on
+            <a href="https://www.openhumans.org/activity/fitbit-intraday/">this
+            project's activity page</a> in the Open Humans website.
+        </p>
+        <p>
+            <b>Note:</b> retrieving and processing your data can take up
+            to 12 hours per year of Fitbit data.
+        </p>
+    </div>
+    <div class="col d-none d-md-block" style="text-align: center;">
+        <img class="oh-cnxn-icon" src="{% static 'img/fitbit-intraday-icon.png' %}">
+    </div>
+</div>
+<hr>
 
+<h2>Your data</h2>
+
+{% if data_files %}
 <table class="table table-hover">
     <thead>
         <tr>
@@ -24,5 +46,11 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<p>
+    No files are yet available. Retrieving and processing your data can take up
+    to 12 hours per year of Fitbit data.
+</p>
+{% endif %}
 
 {% endblock main %}
