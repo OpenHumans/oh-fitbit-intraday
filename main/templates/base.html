@@ -17,6 +17,7 @@
     <!-- Open Humans styles -->
     <link rel="stylesheet" type="text/css" href="https://static.openhumans.org/css/oh-fonts.css">
     <link rel="stylesheet" type="text/css" href="https://static.openhumans.org/css/oh-proj-theming.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/oh-proj-theming.css' %}">
 
     <!-- Custom styles for this app -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
@@ -37,6 +38,16 @@
           <ul class="navbar-nav mr-auto">
           </ul>
           <ul class='navbar-nav ml-auto'>
+            {% if request.user.is_authenticated %}
+              {% if request.user.openhumansmember.fitbituser %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'setup' %}">Setup</a>
+              </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About/FAQ</a>
             </li>

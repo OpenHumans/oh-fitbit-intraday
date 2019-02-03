@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+<h1 class="mb-3">Dashboard: Fitbit Intraday</h1>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col"></th>        
+        </tr>
+    </thead>
+    <tbody>
+        {% for data_file in data_files %}
+        <tr>
+            <td>
+                {{ data_file.basename }}
+            </td>
+            <td>
+                <a class="btn btn-primary btn-sm" href="{{ data_file.download_url }}" download>Download</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock main %}
