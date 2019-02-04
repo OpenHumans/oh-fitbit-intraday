@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% load static %}
+<div class="row">
+  <div class="col-md-9 col-lg-10">
+      <h1 class="mb-3">Set Up: Fitbit Intraday</h1>
+      <p>
+      Welcome! To finish set up, you'll need to follow the instructions below
+      to add a connection to Fitbit for Fitbit Intraday data.
+    </p>
+  </div>
+  <div class="col d-none d-md-block" style="text-align: center;">
+    <img class="oh-cnxn-icon" src="{% static 'img/fitbit-intraday-icon.png' %}">
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md">
+    <h2>You're logged in. </h2>
+    <p>
+      You need to set up your Intraday Fitbit API integration to import your
+      intraday Fitbit data into your Open Humans account. Below are the steps
+      you need to take:
+    </p>
+
+    <h4>1. Login to the Fitbit developer page</h4>
+    <a href="{% static 'img/setup-1.png' %}"><img src="{% static 'img/setup-1.png' %}" width="100%" /></a>
+    <p>
+      Head to <a href='https://dev.fitbit.com/login'><code>https://dev.fitbit.com/login</code></a> and sign-in
+      with the same Fitbit account you are using to collect data with.
+    </p>
+
+      <h4>2. Create your personal API application</h4>
+      <a href="{% static 'img/setup-2.png' %}"><img src="{% static 'img/setup-2.png' %}" width="100%" /></a>
+      <p>
+        Head to <a href='https://dev.fitbit.com/apps/new'><code>https://dev.fitbit.com/apps/new</code></a> and enter the data
+        for your personal endpoint. You need to fill in <code>Application Name</code>, <code>Description</code>, <code>Application Website</code> as well as
+        links to the <code>Terms of Service</code> & <code>Privacy Policy</code>. As you are creating a personal API application and not a public endpoint, you can
+        enter whatever you feel like here.
+      </p>
+
+      <h4>3. Setting up the Personal Fitbit API.</h4>
+      <a href="{% static 'img/setup-3.png' %}"><img src="{% static 'img/setup-3.png' %}" width="100%" /></a>
+      <p>
+        The screenshot above shows the two important settings you need to get right for this integration to work:
+        <ol>
+          <li>Set the <code>OAuth 2.0 Application Type</code> to <code>Personal</code></li>. This allows you to get your intraday data.
+          <li>
+            You need to give a <code>callback URL</code>, which is where you will be redirected to allow Open Humans to access your data.
+            This needs to be set to <code>{{fb_redirect_uri}}</code>.
+          </li>
+        </ol>
+      </p>
+      <h4>4. Get your <code>client_id</code> & <code>client_secret</code></h4>
+      <a href="{% static 'img/setup-4.png' %}"><img src="{% static 'img/setup-4.png' %}" width="100%" /></a>
+      <p>
+        Once you have filled in all the information needed in steps 2 & 3 you will be redirected to a page that
+        shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>.
+      </p>
+      <h4>5. Enter your <code>client_id</code> & <code>client_secret</code></h4>
+      <a href="{% static 'img/setup-5.png' %}"><img src="{% static 'img/setup-5.png' %}" width="49%" /></a>
+      <a href="{% static 'img/setup-6.png' %}"><img src="{% static 'img/setup-6.png' %}" width="49%" /></a>
+      <p>
+        Copy the <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code> from the Step 4 and enter them in the
+        in the form in this application. Once these are saved, a button to connect your Fitbit account will appear.
+      </p>
+      <h4>6. Authenticate with Fitbit</code></h4>
+      <a href="{% static 'img/setup-7.png' %}"><img src="{% static 'img/setup-7.png' %}" width="100%" /></a>
+      <p>
+        Click the `Connect Fitbit Account` button and you will be asked to give permissions to access the intraday data.
+        You should at least allow access to the <code>profile</code>, <code>activity and exercise</code> and <code>heart rate</code>. Once you <code>Allow</code>
+        access to these, your credentials will be stored and this application will start importing your intraday activity & hear heart rate data.
+      </p>
+
+
+  </div>
+  <div class="col-md">
+    <h2>
+      Your Fitbit account
+    </h2>
+    {% if fitbituser %}
+  </p>
+    You already have linked a fitbit user account
+  </p>
+  {% else %}
+  <p>
+    You haven't set up your Fitbit account yet.
+    To do so please follow the 4-step instruction to create your <code>Client ID</code> & <code>Client Secret</code>.
+    After you have added the ID/Secret below you can start the login process with Fitbit.
+  </p>
+  {% endif %}
+
+  {% if fb_auth_url %}
+  <p>
+    You have added your <code>client_id/secret</code> but haven't authorized this Fitbit
+    account yet. Please click below to get access to your intraday-data!
+    <a href="{{ fb_auth_url }}" class="btn btn-primary">
+      Connect Fitbit Account
+    </a>
+  </p>
+  {% elif fitbituser %}
+  <form action="{% url 'delete-fitbit' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Remove Fitbit integration">
+  </form>
+  {%endif%}
+
+  <p>
+    <h3>
+      Add/Edit your Personal Fitbit API <code>client_id/secret</code>
+    </h3>
+    <p>Give <code>{{fb_redirect_uri}}</code> as the <code>Callback URL</code> when setting up
+      on the Fitbit end.</p>
+  <form action="{% url 'create-fitbit' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Fitbit Client ID</label> <input class="form-control" name="client_id" size=60 type="text" value="{{fitbituser.personal_client_id}}" placeholder="Enter your Fitbit Personal API Client-ID" required>
+    </div>
+    <div class="form-group">
+      <label>Client secret</label> <input class="form-control" name="client_secret" type="text" size=60 value="{{fitbituser.personal_client_secret}}" placeholder="Enter your Fitbit Personal API Client-Secret" required>
+    </div>
+    <input type="submit" class="btn btn-default" value="Update Client ID/Secret">
+  </form>
+  </p>
+  </div>
+
+
+{% endblock main %}

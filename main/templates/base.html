@@ -5,52 +5,48 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="images/favicon.ico">
+    <meta name="description" content="Access your Fitbit intraday data with this web app, and archive it in your Open Humans account.">
+    <meta name="author" content="Open Humans Foundation">
+    <link rel="icon" href="https://static.openhumans.org/images/open_humans_favicon.png">
 
-    <title>{% block title %}Fitbit Intraday Data{% endblock title %}</title>
+    <title>{% block title %}Fitbit Intraday Connection{% endblock title %}</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Bootstrap core CSS, via CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <!-- Custom styles -->
+    <!-- Open Humans styles -->
+    <link rel="stylesheet" type="text/css" href="https://static.openhumans.org/css/oh-fonts.css">
+    <link rel="stylesheet" type="text/css" href="https://static.openhumans.org/css/oh-proj-theming.css">
+
+    <!-- Custom styles for this app -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/open-humans-theming.css' %}">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
   </head>
 
   <body>
 
     <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md navbar-open-humans fixed-top">
-        <a class="navbar-brand" href="/">Fitbit Intraday Connection</a>
+      <nav class="navbar navbar-expand-md navbar-open-humans fixed-top container">
+        <a class="navbar-brand" href="/">
+          <img src="https://static.openhumans.org/images/open-humans-logo-only.png" style="height:32px;padding:5px;">
+          Fitbit Intraday</a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon custom-toggler"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
-          <!-- bootstrap sample navbar below
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-          </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          -->
           <ul class="navbar-nav mr-auto">
           </ul>
           <ul class='navbar-nav ml-auto'>
+            {% if request.user.is_authenticated %}
+              {% if request.user.openhumansmember.fitbituser %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'setup' %}">Setup</a>
+              </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About/FAQ</a>
             </li>
@@ -76,12 +72,6 @@
       <p class="lead">Some example lead test.</p>
       {% endblock main %}
     </main>
-
-    <footer class="footer">
-      <div class="container">
-        <span class="text-muted"><a href="https://www.openhumans.org">Explore Yourself</a>.</span>
-      </div>
-    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

@@ -3,155 +3,54 @@
 {% load static %}
     <div class="row">
       <div class="col-md-12">
-        <h2>About / FAQ</h2>
+        <h1 class="mb-3">About: Open Humans / Fitbit Intraday Connection</h2>
       </div>
       <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Who's running this?</h3>
-          </div>
-          <div class="panel-body">
-            <p>
-              This site is run by
-              <a href="https://openhumansfoundation.org/">the Open Humans
-              Foundation</a> and is covered by Open Humans'
-              <a href='https://www.openhumans.org/terms/'>Terms of Use</a> and
-              <a href='https://www.openhumans.org/data-use/'>Data Use Policy</a>.
-              You can always get in touch with us at
-              <a href="mailto:support@openhumans.org">support@openhumans.org</a>.
-            </p>
-            <p>
-              See this project's page on Open Humans:<br><a href='https://www.openhumans.org/activity/link/'>https://www.openhumans.org/activity/link/</a>
-            </p>
-            <p>
-              See this app's code on GitHub:<br><a href='https://github.com/OpenHumans/link'>https://github.com/OpenHumans/link</a>
-            </p>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">What does this do?</h3>
-          </div>
-          <div class="panel-body">
-            <p>
-              This site allows you to connect intraday data from your <i>Fitbit account</i> to your Open
-              Humans account. After logging in with your Open Humans account you can link your <i>Fitbit</i> account.
-              We will then import your intraday data into your Open Humans account.
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">How does it work?</h3>
-          </div>
-          <div class="panel-body">
-            To import your intraday data from Fitbit you have to setup a <code>personal API</code> endpoint through the
-            Fitbit developer settings. Below is a step-by-step guide to setup this integration.
-            <h4>1. Login to the Fitbit developer page</h4>
-            <a href="{% static 'img/setup-1.png' %}"><img src="{% static 'img/setup-1.png' %}" width="100%" /></a>
-            <p>
-              Head to <a href='https://dev.fitbit.com/login'><code>https://dev.fitbit.com/login</code></a> and sign-in
-              with the same Fitbit account you are using to collect data with.
-            </p>
-
-            <h4>2. Create your personal API application</h4>
-            <a href="{% static 'img/setup-2.png' %}"><img src="{% static 'img/setup-2.png' %}" width="100%" /></a>
-            <p>
-              Head to <a href='https://dev.fitbit.com/apps/new'><code>https://dev.fitbit.com/apps/new</code></a> and enter the data
-              for your personal endpoint. You need to fill in <code>Application Name</code>, <code>Description</code>, <code>Application Website</code> as well as
-              links to the <code>Terms of Service</code> & <code>Privacy Policy</code>. As you are creating a personal API application and not a public endpoint, you can
-              enter whatever you feel like here.
-            </p>
-
-            <h4>3. Setting up the Personal Fitbit API.</h4>
-            <a href="{% static 'img/setup-3.png' %}"><img src="{% static 'img/setup-3.png' %}" width="100%" /></a>
-            <p>
-              The screenshot above shows the two important settings you need to get right for this integration to work:
-              <ol>
-                <li>Set the <code>OAuth 2.0 Application Type</code> to <code>Personal</code></li>. This allows you to get your intraday data.
-                <li>
-                  You need to give a <code>callback URL</code>, which is where you will be redirected to allow Open Humans to access your data.
-                  This needs to be set to <code>{{fb_redirect_uri}}</code>.
-                </li>
-              </ol>
-            </p>
-            <h4>4. Get your <code>client_id</code> & <code>client_secret</code></h4>
-            <a href="{% static 'img/setup-4.png' %}"><img src="{% static 'img/setup-4.png' %}" width="100%" /></a>
-            <p>
-              Once you have filled in all the information needed in steps 2 & 3 you will be redirected to a page that
-              shows you your <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code>.
-            </p>
-            <h4>5. Enter your <code>client_id</code> & <code>client_secret</code></h4>
-            <a href="{% static 'img/setup-5.png' %}"><img src="{% static 'img/setup-5.png' %}" width="49%" /></a>
-            <a href="{% static 'img/setup-6.png' %}"><img src="{% static 'img/setup-6.png' %}" width="49%" /></a>
-            <p>
-              Copy the <code>OAuth 2.0 Client ID</code> and <code>Client Secret</code> from the Step 4 and enter them in the
-              in the form in this application. Once these are saved, a button to connect your Fitbit account will appear.
-            </p>
-            <h4>6. Authenticate with Fitbit</code></h4>
-            <a href="{% static 'img/setup-7.png' %}"><img src="{% static 'img/setup-7.png' %}" width="100%" /></a>
-            <p>
-              Click the `Connect Fitbit Account` button and you will be asked to give permissions to access the intraday data.
-              You should at least allow access to the <code>profile</code>, <code>activity and exercise</code> and <code>heart rate</code>. Once you <code>Allow</code>
-              access to these, your credentials will be stored and this application will start importing your intraday activity & hear heart rate data.
-            </p>
-
-          </div>
-        </div>
+        <img style="float:right; width:33%; margin:1rem;" src="{% static 'img/fitbit-intraday-icon.png' %}">
+        {% include 'main/partials/about-1.html' %}
       </div>
       <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Data management</h3>
-          </div>
-          <div class="panel-body">
-          <p>
-            This site can access and store various types of data for visitors
-            and associated with connected accounts.
-          </p>
-          <p>
-            When you connect data from <i>Fitbit</i>, this site will access the
-            following data and store it in your Open Humans
-            account:
-          </p>
-          <ol>
-            <li>Your historic heart rate data in one second resolution.</li>
-            <li>Your historic activity data (steps taken, floors climbed, distances walked) with a one minute resolution</li>
-          </ol>
-          <p>
-            In addition to the historic data, this application will regularly update your Fitbit data to get the latest data points going forward.
-          </p>
-          <p>
-            The site also stores the following data when you connect accounts
-            from <code>external data source</code> and Open Humans.
-          </p>
-          <ol>
-            <li>an anonymous identifier for your Open Humans account</li>
-            <li>authentication credentials that allow us to read &amp; write data from the <i>Fitbit Intraday</i> project to Open Humans</li>
-            <li>authentication credentials that allow us to read your data from <i>Fitbit</i>)</li>
-          </ol>
-          <p>
-            Finally, this site's hoster
-            <i><a href='https://www.heroku.com'>Heroku</a></i> stores and gives
-            us access to the IP addresses of visitors, and pages visited on
-            this site. These logs may be stored for up to a week.
-          </p>
-          <p>
-            You can always delete your account and all associated data from
-            the <i>Dashboard</i> when being logged in.
-            This includes the Open Humans and <i>Fitbit</i> authentication credentials,
-            i.e. we won't be able to access your Open Humans &amp; <i>Fitbit</i>
-            accounts any longer.
-          </p>
-          <p>
-            Removing the authorization on Open Humans does not automatically
-            delete your Intraday Fitbit data on Open Humans; if you want this to occur,
-            you should delete your account here before withdrawing from
-            <a href="https://www.openhumans.org/activity/link/">this
-            project</a> in the Open Humans site.
-          </p>
-          </div>
-        </div>
-      </div>
-  </div>
+        <h2>Data access &amp; data management</h2>
+        <p>
+          <b>Fitbit data:</b> The Fitbit API gives this project ongoing
+          access to data, which we will collect and store for you in
+          Open Humans in an ongoing manner. This includes: steps, heartrate,
+          sleep tracking, weight, and/or body fat composition data.
+        </p>
+        <p>
+            Data files created by the app are stored in your Open Humans
+            account and are always visible to you on the
+            <a href="https://www.openhumans.org/activity/fitbit-intraday/">project
+            activity page</a>.
+        </p>
+        <p>
+          The Fitbit API also gives us access to data we will not copy into
+          your Open Humans account, including: username, friend IDs, and
+          social activity on their site. Access to this data is unavoidable
+          due to how Fitbit operates, but we won't store it.
+        </p>
+        <p>
+          <b>Other data:</b> This project stores tokens for Open Humans and
+          Fitbit authorizations, but has no further access to your Open Humans
+          account data beyond the data files it stores.
+        </p>
+        <p>
+          <b>Removing this connection:</b> You can visit the
+          <a href="https://www.openhumans.org/activity/fitbit-intraday/">project
+            activity page</a> in Open Humans to remove this connection within
+            Open Humans and, optionally, delete associated data files.
+        </p>
+        <h2>Code &amp; deployment</h2>
+        <p>
+          This project website is an
+          <a href="https://github.com/OpenHumans/oh-fitbit-intraday">open source Django app</a>,
+          and is deployed using
+          <a href="https://www.heroku.com/">Heroku</a>. It uses our
+          <a href="https://www.openhumans.org/direct-sharing/oauth2-features/">standard APIs</a>
+          to interact with the main platform. That means you could build something
+          like it! We love to support projects created by others – please chat with
+          us in our <a href="http://slackin.openhumans.org">community slack</a>.
+        </p>
+
 
 {% endblock %}
