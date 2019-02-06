@@ -82,7 +82,21 @@ def update_endpoints(oh_member, fitbit_data, header, old_file_id, month):
             end_date = datetime.date.today()
             while start_date <= end_date:
                 new_data = get_single_endpoint(url, start_date, header)
-                new_data = new_data[endpoint]
+                try:
+                    new_data = new_data[endpoint]
+                except KeyError:
+                    subj = (
+                        'ACTION REQUIRED: Configuration error in Fitbit'
+                        'Intraday / Open Humans')
+                    body = (
+                        'Thanks for trying to use our Fitbit Intraday retrieval app!\n\n'
+                        'It seems your app in Fitbit was misconfigured.\n'
+                        'Did you remember to select "Personal" rather than "Server"?\n\n'
+                        'Go here to return to our Setup instructions:\n'
+                        'https://oh-fitbit-intraday.herokuapp.com/setup/'
+                    )
+                    oh_member.message(subject=subj, message=body)
+                    return
                 new_data['date'] = str(start_date)
                 if endpoint in fitbit_data.keys():
                     fitbit_data[endpoint].append(new_data)
