@@ -67,7 +67,13 @@ def dashboard(request):
     """
     Show files/status dashboard for user that has completed setup.
     """
-    context = {'data_files': request.user.openhumansmember.list_files()}
+    # More graceful failure when project is deauthed only on OH side.
+    try:
+        data_files = request.user.openhumansmember.list_files()
+        data_files.sort(key=lambda x: x['basename'], reverse=True)
+    except Exception:
+        data_files = None
+    context = {'data_files': data_files}
     return render(request, 'main/dashboard.html', context=context)
 
 
