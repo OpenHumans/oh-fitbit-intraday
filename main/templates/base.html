@@ -67,6 +67,14 @@
 
     <!-- Begin page content -->
     <main role="main" class="container">
+      {% if messages %}
+        <div class="row">
+          {% for message in messages %}
+          <div{% if message.tags %} class="message {{ message.tags }}"{% endif %}>
+            {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
       {% block main %}
       <h1 class="mt-5">Heading</h1>
       <p class="lead">Some example lead test.</p>
