@@ -56,7 +56,7 @@ def identify_start_data_fetch(fitbit_data, data_key, month):
         elif month:
             return fitbit_data, month + '-01'
     return fitbit_data, fitbit_data['user']['memberSince']
-    #return fitbit_data, "2018-10-28" # THIS IS JUST FOR TESTING TO KEEP THE DATA MANAGEABLE!
+    #return fitbit_data, "2019-01-02" # THIS IS JUST FOR TESTING TO KEEP THE DATA MANAGEABLE!
 
 
 def get_single_endpoint(url, start_date, header):
@@ -80,7 +80,7 @@ def update_endpoints(oh_member, fitbit_data, header, old_file_id, month):
                             start_date,
                             '%Y-%m-%d').date()
             end_date = datetime.date.today()
-            while start_date <= end_date:
+            while start_date < end_date:
                 new_data = get_single_endpoint(url, start_date, header)
                 try:
                     new_data = new_data[endpoint]
