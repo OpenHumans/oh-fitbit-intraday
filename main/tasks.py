@@ -6,6 +6,7 @@ import datetime
 import tempfile
 import ohapi
 import json
+import time
 
 
 FITBIT_ENDPOINTS = {
@@ -81,6 +82,7 @@ def update_endpoints(oh_member, fitbit_data, header, old_file_id, month):
                             '%Y-%m-%d').date()
             end_date = datetime.date.today()
             while start_date < end_date:
+                time.sleep(5)
                 new_data = get_single_endpoint(url, start_date, header)
                 try:
                     new_data = new_data[endpoint]
