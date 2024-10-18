@@ -11,9 +11,16 @@ app = Celery('fitbit_app')
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
+
+redis_url = os.getenv("REDIS_URL", "redis://")
+
+if redis_url.startswith("rediss://"):
+    redis_url += "?ssl_cert_reqs=required"
+
+
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.conf.update(CELERY_BROKER_URL=os.getenv('REDIS_URL', 'redis://'),
-                CELERY_RESULT_BACKEND=os.getenv('REDIS_URL', 'redis://'))
+app.conf.update(CELERY_BROKER_URL=redis_url,
+                CELERY_RESULT_BACKEND=redis_url)
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
